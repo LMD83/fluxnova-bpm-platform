@@ -3,7 +3,7 @@
   "title": "Fix dead `tree/master/settings` links in CONTRIBUTING.md",
   "type": "chore",
   "size": "S",
-  "phase": "spec",
+  "phase": "build",
   "round": 0,
   "base": "claude/loving-cannon-jj9gmg",
   "branch": "factory/20261028-001-fix-dead-tree-master-settings",
@@ -26,7 +26,7 @@
     "ref": "B-001"
   },
   "created": "2026-10-28T16:11:45+0000",
-  "updated": "2026-10-28T16:14:00+0000",
+  "updated": "2026-10-28T16:14:45+0000",
   "history": [
     {
       "ts": "2026-10-28T16:11:46+0000",
@@ -44,6 +44,12 @@
       "ts": "2026-10-28T16:14:00+0000",
       "from": "investigate",
       "to": "spec",
+      "note": ""
+    },
+    {
+      "ts": "2026-10-28T16:14:45+0000",
+      "from": "spec",
+      "to": "build",
       "note": ""
     }
   ]

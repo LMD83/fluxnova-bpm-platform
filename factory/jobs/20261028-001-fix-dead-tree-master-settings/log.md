@@ -3,3 +3,5 @@
 - `2026-10-28T16:12:34+0000` set type=chore size=S reviewers=["security","code"]
 - `2026-10-28T16:12:34+0000` triage -> investigate
 - `2026-10-28T16:14:00+0000` investigate -> spec
+- `2026-10-28T16:14:45+0000` spec -> build
+- `2026-10-28T16:14:46+0000` worktree .worktrees/20261028-001-fix-dead-tree-master-settings on factory/20261028-001-fix-dead-tree-master-settings from claude/loving-cannon-jj9gmg
