@@ -2,3 +2,4 @@
 - `2026-10-28T16:11:46+0000` intake -> triage
 - `2026-10-28T16:12:34+0000` set type=chore size=S reviewers=["security","code"]
 - `2026-10-28T16:12:34+0000` triage -> investigate
+- `2026-10-28T16:14:00+0000` investigate -> spec

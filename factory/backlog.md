@@ -12,3 +12,5 @@ Add items by hand, with `/factory intake github|slack|file`, or let `/factory` c
 - [ ] B-003 | P3 | Consolidate duplicate Renovate configs | src=seed
   `.github/renovate.json` (220 B) and `.github/renovate.json5` (1.8 KB) both exist. Renovate reads only one by precedence. Determine which one is effective, and remove or merge the other.
   Expected to touch `.github/**` (policy rules R-INFRA, protected paths), so it should escalate to a human.
+- [ ] B-004 | P3 | Fix dead self-links in engine-rest-openapi README | src=job:20261028-001
+  `engine-rest/engine-rest-openapi/README.md` lines 111-112 link to `tree/master/...`; line 111 also uses the old `org/camunda/bpm` path (should be `org/finos/fluxnova/bpm`). Found by the investigator on B-001.
