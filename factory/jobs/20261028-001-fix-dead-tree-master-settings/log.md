@@ -7,3 +7,7 @@
 - `2026-10-28T16:14:46+0000` worktree .worktrees/20261028-001-fix-dead-tree-master-settings on factory/20261028-001-fix-dead-tree-master-settings from claude/loving-cannon-jj9gmg
 - `2026-10-28T16:16:03+0000` build -> review
 - `2026-10-28T16:16:26+0000` set reviews.security=PASS
+- `2026-10-28T16:18:39+0000` set reviews.code=PASS
+- `2026-10-28T16:18:39+0000` review -> decide
+- `2026-10-28T16:19:14+0000` set decision="MERGE"
+- `2026-10-28T16:19:15+0000` decide -> awaiting-approval

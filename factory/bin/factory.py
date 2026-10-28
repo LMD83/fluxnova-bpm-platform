@@ -376,8 +376,9 @@ def cmd_audit(a):
     for lf in (RUNTIME / "activity").glob("*.jsonl"):
         for line in lf.read_text().splitlines():
             e = json.loads(line)
-            if e.get("agent_id") and e.get("job"):
-                seen.setdefault(e["agent_id"], set()).add(e["job"])
+            m = re.match(r"\d{8}-\d{3}-[a-z0-9-]*[a-z0-9]", e.get("job") or "")
+            if e.get("agent_id") and m:
+                seen.setdefault(e["agent_id"], set()).add(m[0])
     for ag, jobs in seen.items():
         if len(jobs) > 1:
             findings.append(f"agent {ag} touched multiple jobs: {sorted(jobs)}")

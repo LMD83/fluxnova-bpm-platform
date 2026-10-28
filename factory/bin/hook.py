@@ -24,7 +24,7 @@ def deny(reason):
     sys.exit(0)
 
 def job_of(path_or_cwd):
-    m = re.search(r"/\.worktrees/([^/]+)", str(path_or_cwd)) or re.search(r"/factory/jobs/([^/]+)", str(path_or_cwd))
+    m = re.search(r"/(?:\.worktrees|factory/jobs)/(\d{8}-\d{3}-[a-z0-9-]*[a-z0-9])", str(path_or_cwd))
     return m.group(1) if m else None
 
 def guard(d):

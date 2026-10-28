@@ -1,0 +1,1 @@
+{"decision":"MERGE","rule":null,"reasons":["rules-hit: none, no protected paths","security PASS, code PASS round 0","only tree/master -> tree/main in two first-party doc links","4 lines, far below R-SIZE"]}
