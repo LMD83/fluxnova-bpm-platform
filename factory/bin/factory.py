@@ -397,6 +397,8 @@ def cmd_commit_state(a):
 
 def cmd_merge(a):
     s = load(a.id)
+    if policy().get("merge.mode") == "never":
+        sys.exit(f"merge disabled by policy (merge.mode = never). Review and merge yourself:\n  git merge --no-ff {s['branch']}\n(worktree: {s['worktree']})")
     if s["phase"] not in ("awaiting-approval", "needs-human"):
         sys.exit(f"cannot merge from phase {s['phase']}")
     bad = files_changed_protected(s)

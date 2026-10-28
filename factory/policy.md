@@ -26,7 +26,7 @@ parallelism            = 2           # max jobs in build/review/rework at once
 max_rework_rounds      = 2
 plan_approval          = false       # true = pause after spec for /factory plan <id> approval
 merge.auto             = false       # false = a human runs /factory approve. true = foreman merges on approver MERGE
-merge.mode             = local       # local = git merge --no-ff into base, never pushes. (pull-request mode: see README, not enabled)
+merge.mode             = local       # local = git merge --no-ff into base, never pushes | never = factory never merges; you do it by hand (use for FundIQ)
 escalate.max_diff_lines = 800        # rule R-SIZE
 
 # --- reviewers that always run (triage may add ux, ui) ---
