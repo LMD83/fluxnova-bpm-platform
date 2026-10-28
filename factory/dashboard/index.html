@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Factory Board</title>
+<style>
+:root{--bg:#f6f7f9;--card:#fff;--fg:#1b1f24;--mut:#667085;--line:#d9dde3;--ok:#127a3e;--bad:#b42318;--warn:#a15c00;--acc:#2457c5}
+@media (prefers-color-scheme:dark){:root{--bg:#14171c;--card:#1d2127;--fg:#e8eaed;--mut:#9aa3af;--line:#2e343c;--ok:#4cc27f;--bad:#f2766b;--warn:#e5a23c;--acc:#7aa2f7}}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--fg);font:14px/1.45 system-ui,sans-serif;padding:12px 16px}
+header{display:flex;gap:12px;align-items:baseline;flex-wrap:wrap;margin-bottom:12px}h1{font-size:18px;margin:0}small,.mut{color:var(--mut)}
+.cols{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:10px}
+.col{background:transparent}.col h2{font-size:12px;text-transform:uppercase;letter-spacing:.05em;color:var(--mut);margin:0 0 6px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:8px;padding:8px 10px;margin-bottom:8px;cursor:pointer}
+.card:hover{border-color:var(--acc)}.card.nh{border-color:var(--bad)}.title{font-weight:600}
+.row{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-top:4px;font-size:12px}
+.pill{border:1px solid var(--line);border-radius:99px;padding:0 7px}
+.PASS{color:var(--ok)}.FAIL{color:var(--bad)}.NA{color:var(--mut)}.pend{color:var(--warn)}
+.rule{color:var(--bad);font-weight:600}.child{margin-left:14px;border-left:2px solid var(--line)}
+code{background:var(--bg);border:1px solid var(--line);border-radius:4px;padding:0 4px;font-size:12px}
+#detail{margin-top:14px;background:var(--card);border:1px solid var(--line);border-radius:8px;padding:10px 12px;display:none}
+#detail nav{display:flex;gap:6px;flex-wrap:wrap;margin:6px 0}#detail nav button{background:var(--bg);color:var(--fg);border:1px solid var(--line);border-radius:6px;padding:2px 8px;cursor:pointer}
+#detail nav button.on{border-color:var(--acc);color:var(--acc)}
+pre{white-space:pre-wrap;word-break:break-word;max-height:55vh;overflow:auto;background:var(--bg);padding:8px;border-radius:6px;border:1px solid var(--line);margin:0}
+button.x{float:right}
+</style>
+</head>
+<body>
+<header><h1>Factory Board</h1><small id="stamp"></small><small>read-only · refreshes every 3 s · actions are slash commands in Claude Code</small></header>
+<div class="cols" id="cols"></div>
+<section id="detail"></section>
+<script>
+const COLS=[["Queue",["intake","triage","investigate","spec","plan-approval","mission"]],["Building",["build","rework"]],["In review",["review","decide"]],["Awaiting approval",["awaiting-approval"]],["Needs human",["needs-human"]],["Merged / history",["merged","watch","done","rolled-back","rejected"]]];
+let jobs=[],open=null,file=null;
+const el=(t,c,x)=>{const e=document.createElement(t);if(c)e.className=c;if(x!=null)e.textContent=x;return e};
+const icon=v=>v==="PASS"?["✔","PASS"]:v==="FAIL"?["✘","FAIL"]:v==="N/A"?["–","NA"]:["…","pend"];
+function card(j,child){
+  const c=el("div","card"+(j.phase==="needs-human"?" nh":"")+(child?" child":""));
+  c.onclick=()=>{open=j.id;file=file&&j.files.includes(file)?file:"status.json";renderDetail()};
+  c.append(el("div","title",j.title));
+  const r=el("div","row");r.append(el("span","pill",j.phase),el("span","mut","round "+j.round),el("span","mut",(j.type||"?")+"/"+(j.size||"?")));
+  c.append(r);
+  const rv=el("div","row");
+  for(const n of (j.reviewers||[])){const [i,k]=icon(j.reviews[n]);const s=el("span",k,i+" "+n);rv.append(s)}
+  if(rv.children.length)c.append(rv);
+  if(j.needs_human){const n=el("div","row");n.append(el("span","rule",j.needs_human.rule||"?"),el("span",null,j.needs_human.reason));c.append(n)}
+  if(j.phase==="awaiting-approval"){c.append(el("div","row mut","→ /factory approve "+shortId(j)))}
+  if(["merged","watch","done"].includes(j.phase)){c.append(el("div","row mut","rollback: /factory rollback "+shortId(j)))}
+  if(j.children&&j.children.length)c.append(el("div","row mut","mission: "+j.children.length+" sub-jobs"));
+  return c;
+}
+const shortId=j=>j.id.split("-").slice(0,2).join("-");
+function render(){
+  const cols=document.getElementById("cols");cols.replaceChildren();
+  const byId=Object.fromEntries(jobs.map(j=>[j.id,j]));
+  for(const [name,phases] of COLS){
+    const col=el("div","col");col.append(el("h2",null,name));
+    const here=jobs.filter(j=>phases.includes(j.phase)&&!j.parent).concat(jobs.filter(j=>phases.includes(j.phase)&&j.parent&&!phases.includes(byId[j.parent]?.phase)));
+    for(const j of here.sort((a,b)=>b.updated.localeCompare(a.updated))){
+      col.append(card(j,false));
+      if(phases.includes(j.phase))for(const cid of j.children||[])if(byId[cid])col.append(card(byId[cid],true));
+    }
+    cols.append(col);
+  }
+  if(!jobs.length)cols.append(el("p","mut","No jobs yet. Run /factory \"<description>\" or /factory next."));
+}
+async function renderDetail(){
+  const d=document.getElementById("detail"),j=jobs.find(x=>x.id===open);if(!j){d.style.display="none";return}
+  d.style.display="block";d.replaceChildren();
+  const x=el("button","x","close");x.onclick=()=>{open=null;d.style.display="none"};
+  d.append(x,el("div","title",j.id),el("div","mut",j.branch+" ← "+j.base+(j.merge_commit?" · merged "+j.merge_commit.slice(0,10):"")+(j.checkpoint_tag?" · tag "+j.checkpoint_tag:"")));
+  const nav=el("nav");
+  for(const f of [...j.files,"activity"]){const b=el("button",f===file?"on":"",f);b.onclick=()=>{file=f;renderDetail()};nav.append(b)}
+  d.append(nav);
+  const pre=el("pre");d.append(pre);
+  try{
+    const url=file==="activity"?"/api/activity?job="+encodeURIComponent(j.id):"/api/file?job="+encodeURIComponent(j.id)+"&path="+encodeURIComponent(file);
+    pre.textContent=await (await fetch(url)).text();
+  }catch(e){pre.textContent=String(e)}
+}
+async function tick(){
+  try{jobs=await (await fetch("/api/jobs")).json();render();if(open)renderDetail();
+    document.getElementById("stamp").textContent=new Date().toLocaleTimeString()}catch(e){document.getElementById("stamp").textContent="offline"}
+}
+tick();setInterval(tick,3000);
+</script>
+</body>
+</html>

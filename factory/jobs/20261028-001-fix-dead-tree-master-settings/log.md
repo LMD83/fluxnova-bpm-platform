@@ -1,0 +1,14 @@
+- `2026-10-28T16:11:45+0000` created (intake)
+- `2026-10-28T16:11:46+0000` intake -> triage
+- `2026-10-28T16:12:34+0000` set type=chore size=S reviewers=["security","code"]
+- `2026-10-28T16:12:34+0000` triage -> investigate
+- `2026-10-28T16:14:00+0000` investigate -> spec
+- `2026-10-28T16:14:45+0000` spec -> build
+- `2026-10-28T16:14:46+0000` worktree .worktrees/20261028-001-fix-dead-tree-master-settings on factory/20261028-001-fix-dead-tree-master-settings from claude/loving-cannon-jj9gmg
+- `2026-10-28T16:16:03+0000` build -> review
+- `2026-10-28T16:16:26+0000` set reviews.security=PASS
+- `2026-10-28T16:18:39+0000` set reviews.code=PASS
+- `2026-10-28T16:18:39+0000` review -> decide
+- `2026-10-28T16:19:14+0000` set decision="MERGE"
+- `2026-10-28T16:19:15+0000` decide -> awaiting-approval
+- `2026-10-28T16:25:59+0000` merged into claude/loving-cannon-jj9gmg @ c314925df4 (tag factory/pre-20261028-001-fix-dead-tree-master-settings)

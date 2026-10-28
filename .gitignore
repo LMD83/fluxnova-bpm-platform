@@ -27,3 +27,11 @@ camunda-h2-dbs
 
 internal
 configuration
+
+# software factory (runtime only; job artefacts are committed)
+.worktrees/
+factory/runtime/
+factory/inbox/processed/
+factory/inbox/slack/processed/
+!/factory/bin/
+__pycache__/

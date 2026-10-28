@@ -1,0 +1,1 @@
+Playbooks are recurring-task templates. `/factory playbook <name> <args>` fills `{{1}}`, `{{2}}`... into **Request template**, creates a job, and passes **Triage hints** to the triage agent. Copy `dependency-bump.md` to add one.
