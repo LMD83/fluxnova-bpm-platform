@@ -14,7 +14,9 @@
     "security",
     "code"
   ],
-  "reviews": {},
+  "reviews": {
+    "security": "PASS"
+  },
   "decision": null,
   "rule": null,
   "needs_human": null,
@@ -26,7 +28,7 @@
     "ref": "B-001"
   },
   "created": "2026-10-28T16:11:45+0000",
-  "updated": "2026-10-28T16:16:03+0000",
+  "updated": "2026-10-28T16:16:26+0000",
   "history": [
     {
       "ts": "2026-10-28T16:11:46+0000",

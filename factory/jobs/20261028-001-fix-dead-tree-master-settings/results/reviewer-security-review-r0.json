@@ -1,0 +1,1 @@
+{"verdict":"PASS","blocking":[],"nits":["CONTRIBUTING.md:307 still links to dead camunda wiki page (out of scope)","engine-rest-openapi README dead links (B-004)"],"summary":"Only CONTRIBUTING.md:307 and :399 master->main; no secrets, code, deps or CI; no policy rule hit."}
