@@ -304,7 +304,7 @@ A pull request can be submitted as follows:
 Before submitting your pull request for code review, please go through the following checklist:
 ** Wiki Pages are missing. Needs To Be Reviewed **
 1. Is your code formatted according to our code style guidelines?
-    * Java: Please check our [Java Code Style Guidelines](https://github.com/camunda/camunda-bpm-platform/wiki/Coding-Style-Java). You can also import [our template and settings files](https://github.com/finos/fluxnova-bpm-platform/tree/master/settings) into your IDE before you start coding.
+    * Java: Please check our [Java Code Style Guidelines](https://github.com/camunda/camunda-bpm-platform/wiki/Coding-Style-Java). You can also import [our template and settings files](https://github.com/finos/fluxnova-bpm-platform/tree/main/settings) into your IDE before you start coding.
     * Javascript: Your code is automatically formatted whenever you commit.
 1. Is your code covered by unit tests?
     * Ask us if you are not sure where to write the tests or what kind of tests you should write.
@@ -396,7 +396,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
 ```
 
-The header can be added manually (check other files). If you use our [IDE settings](https://github.com/finos/fluxnova-bpm-platform/tree/master/settings), it will be generated automatically when you create new `.java` files. You can also add it by running `mvn clean install -Plicense-header-check` in the module that you have changed. This command also re-formats any incorrectly formatted license header.
+The header can be added manually (check other files). If you use our [IDE settings](https://github.com/finos/fluxnova-bpm-platform/tree/main/settings), it will be generated automatically when you create new `.java` files. You can also add it by running `mvn clean install -Plicense-header-check` in the module that you have changed. This command also re-formats any incorrectly formatted license header.
 
 Contributions that do not contain valid license headers cannot be merged.
 
