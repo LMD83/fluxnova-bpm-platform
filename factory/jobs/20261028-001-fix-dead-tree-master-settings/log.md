@@ -11,3 +11,4 @@
 - `2026-10-28T16:18:39+0000` review -> decide
 - `2026-10-28T16:19:14+0000` set decision="MERGE"
 - `2026-10-28T16:19:15+0000` decide -> awaiting-approval
+- `2026-10-28T16:25:59+0000` merged into claude/loving-cannon-jj9gmg @ c314925df4 (tag factory/pre-20261028-001-fix-dead-tree-master-settings)

@@ -4,7 +4,7 @@ Prioritised queue (P0 highest). Format is parsed by `factory/bin/factory.py`:
 `- [ ] B-nnn | P<n> | <title> | src=<ref>` then indented detail lines. `[ ]` open, `[~]` in progress (`job=` added), `[x]` merged.
 Add items by hand, with `/factory intake github|slack|file`, or let `/factory` create jobs directly.
 
-- [~] B-001 | P2 | Fix dead `tree/master/settings` links in CONTRIBUTING.md | src=seed | job=20261028-001-fix-dead-tree-master-settings
+- [x] B-001 | P2 | Fix dead `tree/master/settings` links in CONTRIBUTING.md | src=seed | job=20261028-001-fix-dead-tree-master-settings
   CONTRIBUTING.md lines 307 and 399 link to `.../fluxnova-bpm-platform/tree/master/settings`, but the default branch is `main`
   (the `settings/` folder exists). Fix both links. Docs only. Do not touch the "Needs To Be Reviewed" markers; those are the maintainers' notes.
 - [ ] B-002 | P3 | Remove empty tracked `errors.txt` from the repo root | src=seed

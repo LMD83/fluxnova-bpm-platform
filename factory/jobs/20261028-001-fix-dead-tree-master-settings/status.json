@@ -3,7 +3,7 @@
   "title": "Fix dead `tree/master/settings` links in CONTRIBUTING.md",
   "type": "chore",
   "size": "S",
-  "phase": "awaiting-approval",
+  "phase": "merged",
   "round": 0,
   "base": "claude/loving-cannon-jj9gmg",
   "branch": "factory/20261028-001-fix-dead-tree-master-settings",
@@ -21,15 +21,15 @@
   "decision": "MERGE",
   "rule": null,
   "needs_human": null,
-  "merge_commit": null,
-  "checkpoint_tag": null,
+  "merge_commit": "c314925df496f6682b9b6aed009c7f7eea0896ec",
+  "checkpoint_tag": "factory/pre-20261028-001-fix-dead-tree-master-settings",
   "allowed_protected": [],
   "source": {
     "kind": "text",
     "ref": "B-001"
   },
   "created": "2026-10-28T16:11:45+0000",
-  "updated": "2026-10-28T16:19:15+0000",
+  "updated": "2026-10-28T16:25:59+0000",
   "history": [
     {
       "ts": "2026-10-28T16:11:46+0000",
@@ -72,6 +72,12 @@
       "from": "decide",
       "to": "awaiting-approval",
       "note": ""
+    },
+    {
+      "ts": "2026-10-28T16:25:59+0000",
+      "from": "awaiting-approval",
+      "to": "merged",
+      "note": "c314925df496f6682b9b6aed009c7f7eea0896ec"
     }
   ]
 }
