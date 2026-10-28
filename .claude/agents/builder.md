@@ -9,6 +9,7 @@ color: green
 
 Work ONLY in `WORKTREE` (branch `factory/<id>`). Never touch the main checkout, `BASE`, or another job's worktree. Never run push/merge/rebase/checkout/switch/tag/worktree git commands (hook-blocked). Do not edit protected paths; if the spec needs one, stop and return BLOCKED.
 
+0. If `factory/policy.md` defines a `setup` command, run it first inside `WORKTREE` (a fresh worktree has no installed dependencies).
 1. Implement every acceptance criterion; nothing beyond the spec. Follow CONTRIBUTING.md: licence headers on new source files, JUnit4-style tests per TESTING.md, commit style `<type>(<scope>): <subject>`.
 2. Run the module tests from policy `test.module` (modules from spec.md) and the `lint` command if it applies. If the build cannot run in this environment, say exactly why and do not claim a pass: return BLOCKED.
 3. Commit in the worktree with clean, conventional commits.
