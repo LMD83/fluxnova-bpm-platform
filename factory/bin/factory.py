@@ -244,11 +244,13 @@ KINDS = {"list": list, "str": str, "bool": bool, "dict": dict}
 
 def extract_json(text):
     blocks = re.findall(r"```json\s*(.*?)```", text, re.S)
-    cand = blocks[-1] if blocks else text[text.rfind("{"):] if "{" in text else ""
-    try:
-        return json.loads(cand)
-    except ValueError as e:
-        sys.exit(f"INVALID: no parseable JSON result ({e})")
+    cands = blocks[-1:] + [text.strip(), text[text.find("{"):text.rfind("}") + 1]]
+    for cand in cands:
+        try:
+            return json.loads(cand)
+        except ValueError:
+            continue
+    sys.exit("INVALID: no parseable JSON result")
 
 def check(role, o):
     errs = []

@@ -16,7 +16,7 @@ sys.path.insert(0, str(Path(__file__).parent))
 import factory as fx  # noqa: E402
 
 EDIT_TOOLS = {"Edit", "Write", "MultiEdit", "NotebookEdit"}
-SUBAGENT_GIT_DENY = re.compile(r"\bgit\s+(push|merge|rebase|checkout|switch|reset\s+--hard|tag|worktree|branch\s+-[dD]|clean)\b")
+SUBAGENT_GIT_DENY = re.compile(r"\bgit\s+(push|merge(?!-base)|rebase|checkout|switch|reset\s+--hard|tag|worktree|branch\s+-[dD]|clean)\b")
 
 def deny(reason):
     print(json.dumps({"hookSpecificOutput": {"hookEventName": "PreToolUse", "permissionDecision": "deny",
