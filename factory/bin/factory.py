@@ -131,9 +131,10 @@ def worktree_path(s):
 
 def cmd_new(a):
     p = policy()
-    text = a.text if a.text is not None else sys.stdin.read()
+    text = a.text if a.text is not None else ("" if a.backlog or sys.stdin.isatty() else sys.stdin.read())
     bl = None
     if a.backlog:
+        a.source = "backlog" if a.source == "text" else a.source
         bl = next((b for b in read_backlog() if b["id"] == a.backlog), None)
         if not bl:
             sys.exit(f"backlog item {a.backlog} not found")

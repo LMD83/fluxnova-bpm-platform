@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- The factory state machine as BPMN 2.0. Documentation / modelling artefact: open in the Fluxnova Modeler.
+     The running factory is .claude/skills/factory + factory/bin/factory.py (TRANSITIONS table); keep them in step. -->
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" id="factory-defs" targetNamespace="https://github.com/finos/fluxnova-bpm-platform/factory">
+  <bpmn:process id="software-factory" name="Software factory job" isExecutable="false">
+    <bpmn:startEvent id="start" name="Request (text, backlog, issue, Slack)"/>
+    <bpmn:task id="triage" name="Triage"/>
+    <bpmn:exclusiveGateway id="split" name="Too large?"/>
+    <bpmn:subProcess id="mission" name="Mission: run sub-jobs, integrate"/>
+    <bpmn:task id="investigate" name="Investigate"/>
+    <bpmn:task id="spec" name="Spec"/>
+    <bpmn:exclusiveGateway id="planGate" name="plan_approval?"/>
+    <bpmn:userTask id="planApproval" name="Human: approve plan"/>
+    <bpmn:task id="build" name="Build (worktree)"/>
+    <bpmn:task id="review" name="Reviews in parallel (security, code, ux, ui)"/>
+    <bpmn:exclusiveGateway id="reviewGate" name="All pass?"/>
+    <bpmn:exclusiveGateway id="roundGate" name="Rounds left?"/>
+    <bpmn:task id="rework" name="Rework (builder)"/>
+    <bpmn:task id="decide" name="Approver"/>
+    <bpmn:exclusiveGateway id="decisionGate" name="MERGE or ESCALATE (rule ID)"/>
+    <bpmn:userTask id="approve" name="Human: /factory approve"/>
+    <bpmn:userTask id="needsHuman" name="Human: needs-human"/>
+    <bpmn:task id="merge" name="Merge --no-ff + checkpoint tag"/>
+    <bpmn:task id="watch" name="Post-merge watch (monitor)"/>
+    <bpmn:endEvent id="done" name="Done / rejected / rolled back"/>
+    <bpmn:sequenceFlow id="f1" sourceRef="start" targetRef="triage"/>
+    <bpmn:sequenceFlow id="f2" sourceRef="triage" targetRef="split"/>
+    <bpmn:sequenceFlow id="f3" name="yes" sourceRef="split" targetRef="mission"/>
+    <bpmn:sequenceFlow id="f4" name="no" sourceRef="split" targetRef="investigate"/>
+    <bpmn:sequenceFlow id="f5" sourceRef="mission" targetRef="review"/>
+    <bpmn:sequenceFlow id="f6" sourceRef="investigate" targetRef="spec"/>
+    <bpmn:sequenceFlow id="f7" sourceRef="spec" targetRef="planGate"/>
+    <bpmn:sequenceFlow id="f8" name="yes" sourceRef="planGate" targetRef="planApproval"/>
+    <bpmn:sequenceFlow id="f9" name="no" sourceRef="planGate" targetRef="build"/>
+    <bpmn:sequenceFlow id="f10" sourceRef="planApproval" targetRef="build"/>
+    <bpmn:sequenceFlow id="f11" sourceRef="build" targetRef="review"/>
+    <bpmn:sequenceFlow id="f12" sourceRef="review" targetRef="reviewGate"/>
+    <bpmn:sequenceFlow id="f13" name="yes" sourceRef="reviewGate" targetRef="decide"/>
+    <bpmn:sequenceFlow id="f14" name="no" sourceRef="reviewGate" targetRef="roundGate"/>
+    <bpmn:sequenceFlow id="f15" name="yes" sourceRef="roundGate" targetRef="rework"/>
+    <bpmn:sequenceFlow id="f16" name="no: MAX-ROUNDS" sourceRef="roundGate" targetRef="needsHuman"/>
+    <bpmn:sequenceFlow id="f17" sourceRef="rework" targetRef="review"/>
+    <bpmn:sequenceFlow id="f18" sourceRef="decide" targetRef="decisionGate"/>
+    <bpmn:sequenceFlow id="f19" name="MERGE" sourceRef="decisionGate" targetRef="approve"/>
+    <bpmn:sequenceFlow id="f20" name="ESCALATE" sourceRef="decisionGate" targetRef="needsHuman"/>
+    <bpmn:sequenceFlow id="f21" sourceRef="approve" targetRef="merge"/>
+    <bpmn:sequenceFlow id="f22" name="override" sourceRef="needsHuman" targetRef="merge"/>
+    <bpmn:sequenceFlow id="f23" sourceRef="merge" targetRef="watch"/>
+    <bpmn:sequenceFlow id="f24" sourceRef="watch" targetRef="done"/>
+  </bpmn:process>
+</bpmn:definitions>
